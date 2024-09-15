@@ -1,5 +1,14 @@
 import ChatLayout from "@/Layouts/ChatLayout";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
-export default function Home({ auth }) {
-    return <ChatLayout>Messages</ChatLayout>;
+function Home({ auth }) {
+    return <>Messages</>;
 }
+
+Home.layout = (page) => (
+    <AuthenticatedLayout>
+        <ChatLayout children={page} />
+    </AuthenticatedLayout>
+);
+
+export default Home;

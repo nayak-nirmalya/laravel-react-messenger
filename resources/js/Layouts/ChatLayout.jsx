@@ -1,4 +1,5 @@
 import { usePage } from "@inertiajs/react";
+import { useState } from "react";
 import { useEffect } from "react";
 
 export default function Chat({ children }) {
@@ -6,14 +7,36 @@ export default function Chat({ children }) {
     const conversations = page.props.conversations;
     const selectedConversation = page.props.selectedConversation;
 
+    const [onlineUsers, setOnlineUsers] = useState({});
+
     console.log("conversations", conversations);
     console.log("selectedConversation", selectedConversation);
 
     useEffect(() => {
         Echo.join("online")
-            .here((users) => console.log("Here", users))
-            .joining((user) => console.log("Joining", user))
-            .leaving((user) => console.log("Leaving", user))
+            .here((users) => {
+                const onlineUsersObj = Object.fromEntries(
+                    users.map((user) => [user.id, user])
+                );
+
+                setOnlineUsers((prevOnlineUsers) => {
+                    return { ...prevOnlineUsers, ...onlineUsersObj };
+                });
+            })
+            .joining((user) => {
+                setOnlineUsers((prevOnlineUsers) => {
+                    const updatedOnlineUsers = { ...prevOnlineUsers };
+                    updatedOnlineUsers[user.id] = user;
+                    return updatedOnlineUsers;
+                });
+            })
+            .leaving((user) => {
+                setOnlineUsers((prevOnlineUsers) => {
+                    const updatedOnlineUsers = { ...prevOnlineUsers };
+                    delete updatedOnlineUsers[user.id];
+                    return updatedOnlineUsers;
+                });
+            })
             .error((error) => console.error("Error", error));
 
         return () => {

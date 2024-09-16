@@ -8,6 +8,8 @@ use \Illuminate\Support\Facades\Storage;
 
 class UserResource extends JsonResource
 {
+    public static $wrap = false;
+
     /**
      * Transform the resource into an array.
      *
@@ -22,8 +24,8 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'is_admin' => (bool) $this->is_admin,
-            'last_message' => (bool) $this->last_message,
-            'last_message_date' => (bool) $this->last_message_date,
+            'last_message' => $this->last_message,
+            'last_message_date' => $this->last_message_date,
             'avatar_url' => $this->avatar ? Storage::url($this->avatar) : null,
         ];
     }

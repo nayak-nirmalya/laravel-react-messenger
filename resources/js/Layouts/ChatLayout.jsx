@@ -15,6 +15,10 @@ export default function Chat({ children }) {
             .joining((user) => console.log("Joining", user))
             .leaving((user) => console.log("Leaving", user))
             .error((error) => console.error("Error", error));
+
+        return () => {
+            Echo.leave("online");
+        };
     }, []);
 
     return (

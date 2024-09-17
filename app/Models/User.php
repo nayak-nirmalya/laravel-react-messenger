@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,5 +52,31 @@ class User extends Authenticatable
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'group_user');
+    }
+
+    public static function getUsersExceptUser(User $exceptUser)
+    {
+        $userId = $exceptUser->id;
+        $query = User::select(['users.*', 'messages.message as last_message', 'messages.created_at as last_message_date'])
+            ->where('user.id', '!=', $userId)
+            ->when(!$exceptUser->is_admin, function ($query) {
+                $query->whereNull('users.blocked_at');
+            })
+            ->leftJoin('conversations', function ($join) use ($userId) {
+                $join->on('conversations.user_id1', '=', 'users.id')
+                    ->where('conversations.user_id2', '=', $userId)
+                    ->orWhere(function ($query) {
+                        $query->on('conversations.user_id2', "=", 'users.id')
+                            ->where('conversations.user_id1', '=', Auth::id());
+                    })
+                ;
+            })
+            ->leftJoin('messages', 'messages.id', '=', 'conversations.last_message_id')
+            ->orderByRaw('IFNULL(users.blocked_at, 1)')
+            ->orderBy('messages.created_at', 'desc')
+            ->orderBy('users.name')
+        ;
+
+        return $query->get();
     }
 }

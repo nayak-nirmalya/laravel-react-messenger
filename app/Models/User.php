@@ -58,16 +58,17 @@ class User extends Authenticatable
     {
         $userId = $exceptUser->id;
         $query = User::select(['users.*', 'messages.message as last_message', 'messages.created_at as last_message_date'])
-            ->where('user.id', '!=', $userId)
+            ->where('users.id', '!=', $userId)
             ->when(!$exceptUser->is_admin, function ($query) {
                 $query->whereNull('users.blocked_at');
             })
             ->leftJoin('conversations', function ($join) use ($userId) {
                 $join->on('conversations.user_id1', '=', 'users.id')
                     ->where('conversations.user_id2', '=', $userId)
-                    ->orWhere(function ($query) {
+                    ->orWhere(function ($query) use ($userId) {
                         $query->on('conversations.user_id2', "=", 'users.id')
-                            ->where('conversations.user_id1', '=', Auth::id());
+                            ->where('conversations.user_id1', '=', $userId)
+                        ;
                     })
                 ;
             })
@@ -78,5 +79,21 @@ class User extends Authenticatable
         ;
 
         return $query->get();
+    }
+
+    public function toConversationArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'is_group' => false,
+            'is_user' => true,
+            'is_admin' => (bool) $this->is_admin,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->created_at,
+            'blocked_at' => $this->blocked_at,
+            'last_message' => $this->last_message,
+            'last_message_date' => $this->last_message_date,
+        ];
     }
 }

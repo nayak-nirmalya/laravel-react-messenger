@@ -28,7 +28,7 @@ export default function Chat({ children }) {
                 }
 
                 if (a.last_message_date && b.last_message_date) {
-                    return b.last_message_date.locaeCompare(
+                    return b.last_message_date.localeCompare(
                         a.last_message_date
                     );
                 } else if (a.last_message_date) {

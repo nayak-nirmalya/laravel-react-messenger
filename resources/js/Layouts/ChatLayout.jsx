@@ -1,7 +1,6 @@
 import TextInput from "@/Components/TextInput";
 import { usePage } from "@inertiajs/react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function Chat({ children }) {
     const page = usePage();
@@ -19,12 +18,9 @@ export default function Chat({ children }) {
 
     const onSearch = (ev) => {
         const search = ev.target.value.toLowerCase();
-        setSortedConversations(
-            localConversations.filter((conversation) => {
-                return (
-                    conversation.name.toLowerCase().includes(search) ||
-                    conversation.email.toLowerCase().includes(search)
-                );
+        setLocalConversations(
+            conversations.filter((conversation) => {
+                return conversation.name.toLowerCase().includes(search);
             })
         );
     };

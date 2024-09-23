@@ -1,4 +1,4 @@
-const { Link, usePage } = require("@inertiajs/react");
+import { Link, usePage } from "@inertiajs/react";
 
 import UserAvatar from "./UserAvatar";
 import GroupAvatar from "./GroupAvatar";

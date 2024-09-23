@@ -1,6 +1,9 @@
-import TextInput from "@/Components/TextInput";
-import { usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
+import { usePage } from "@inertiajs/react";
+
+import TextInput from "@/Components/TextInput";
+import ConversationItem from "@/Components/App/ConversationItem";
 
 export default function Chat({ children }) {
     const page = usePage();

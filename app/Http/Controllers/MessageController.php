@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SocketMessage;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Resources\MessageResource;
+use App\Models\Conversation;
 use App\Models\Group;
 use App\Models\Message;
+use App\Models\MessageAttachment;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -67,11 +70,55 @@ class MessageController extends Controller
 
     public function store(StoreMessageRequest $request)
     {
+        $data = $request->validated();
+        $data['sender_id'] = auth()->id();
+        $receiver_id = $data['receiver_id'] ?? null;
+        $group_id = $data['group_id'] ?? null;
 
+        $files = $data['attachments'] ?? [];
+
+        $message = Message::create($data);
+
+        $attachments = [];
+        if ($files) {
+            foreach ($files as $file) {
+                $directory = 'attachments/' . Str::random(32);
+                Storage::makeDirectory($directory);
+
+                $model = [
+                    'message_id' => $message->id,
+                    'name' => $file->getClientOriginalName(),
+                    'mime' => $file->getClientMimeType(),
+                    'size' => $file->getSize(),
+                    'path' => $file->store($directory, 'public'),
+                ];
+                $attachment = MessageAttachment::create($model);
+                $attachments[] = $attachment;
+            }
+            $message->attachments = $attachments;
+        }
+
+        if ($receiver_id) {
+            Conversation::updateConversationWithMessage($receiver_id, auth()->id(), $message);
+        }
+
+        if ($group_id) {
+            Group::updateGroupWithMessage($group_id, $message);
+        }
+
+        SocketMessage::dispatch($message);
+
+        return new MessageResource($message);
     }
 
     public function destroy(Message $message)
     {
+        if ($message->sender_id !== auth()->id()) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
 
+        $message->delete();
+
+        return response('', 204);
     }
 }

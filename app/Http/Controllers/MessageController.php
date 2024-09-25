@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMessageRequest;
+use App\Http\Resources\MessageResource;
 use App\Models\Group;
 use App\Models\Message;
 use App\Models\User;
@@ -12,7 +13,18 @@ class MessageController extends Controller
 {
     public function byUser(User $user)
     {
+        $message = Message::where("sender_id", auth()->id())
+            ->where("receiver_id", $user->id)
+            ->orWhere("sender_id", $user->id)
+            ->where("receiver_id", auth()->id())
+            ->latest()
+            ->paginate(10)
+        ;
 
+        return inertia('Home', [
+            'selectedConversation' => $user->toConversationArray(),
+            'messages' => MessageResource::collection($message),
+        ]);
     }
 
     public function byGroup(Group $group)

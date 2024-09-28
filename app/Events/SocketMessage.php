@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -23,6 +24,13 @@ class SocketMessage
         //
     }
 
+    public function broadcastWith(): array
+    {
+        return [
+            'message' => new MessageResource($this->message),
+        ];
+    }
+
     /**
      * Get the channels the event should broadcast on.
      *
@@ -30,8 +38,15 @@ class SocketMessage
      */
     public function broadcastOn(): array
     {
-        return [
-            new PrivateChannel('channel-name'),
-        ];
+        $m = $this->message;
+        $channels = [];
+
+        if ($m->group_id) {
+            $channels[] = new PrivateChannel('message.group' . $m->group_id);
+        } else {
+            new PrivateChannel('message.user.' . collect([$m->sender_id, $m->receiver_id])->sort()->implode('-'));
+        }
+
+        return $channels;
     }
 }

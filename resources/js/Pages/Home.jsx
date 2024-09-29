@@ -3,8 +3,11 @@ import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 
 import ChatLayout from "@/Layouts/ChatLayout";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import ConversationHeader from "@/Components/App/ConversationHeader";
+import MessageItem from "@/Components/App/MessageItem";
 
-function Home({ messages }) {
+function Home({ messages = null, selectedConversation = null }) {
+    console.log({ messages });
     const [localMesssages, setLocalMessages] = useState([]);
 
     const messagesCtrRef = useRef(null);
@@ -50,7 +53,7 @@ function Home({ messages }) {
                             </div>
                         )}
                     </div>
-                    <MessageInput conversation={selectedConversation} />
+                    {/* <MessageInput conversation={selectedConversation} /> */}
                 </>
             )}
         </>

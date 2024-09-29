@@ -6,7 +6,7 @@ import { formatMessageDateLong } from "@/helpers";
 
 import UserAvatar from "./UserAvatar";
 
-export default function MessageItem({ message, attachmentClick }) {
+export default function MessageItem({ message }) {
     const currentUser = usePage().props.auth.user;
 
     return (

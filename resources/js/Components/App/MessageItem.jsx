@@ -19,7 +19,7 @@ export default function MessageItem({ message }) {
             }
         >
             <UserAvatar user={message.sender} />
-            <div className="chat-header">
+            <div className="chat-header mb-0.5">
                 {message.sender_id !== currentUser.id
                     ? message.sender.name
                     : ""}

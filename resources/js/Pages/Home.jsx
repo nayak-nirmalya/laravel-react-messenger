@@ -8,7 +8,7 @@ import MessageItem from "@/Components/App/MessageItem";
 
 function Home({ messages = null, selectedConversation = null }) {
     console.log({ messages });
-    const [localMesssages, setLocalMessages] = useState([]);
+    const [localMessages, setLocalMessages] = useState([]);
 
     const messagesCtrRef = useRef(null);
 
@@ -35,16 +35,16 @@ function Home({ messages = null, selectedConversation = null }) {
                         ref={messagesCtrRef}
                         className="flex-1 overflow-y-auto p-5"
                     >
-                        {localMesssages.length === 0 && (
+                        {localMessages.length === 0 && (
                             <div className="flex justify-center items-center h-full">
                                 <div className="text-lg text-slate-200">
                                     No messages found
                                 </div>
                             </div>
                         )}
-                        {localMesssages.length > 0 && (
+                        {localMessages.length > 0 && (
                             <div className="flex flex-1 flex-col">
-                                {localMesssages.map((message) => (
+                                {localMessages.map((message) => (
                                     <MessageItem
                                         key={message.id}
                                         message={message}

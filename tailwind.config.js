@@ -22,7 +22,7 @@ export default {
     plugins: [forms, require("daisyui")],
 
     daisyui: {
-        themes: true,
+        themes: ["dark"],
         darkTheme: "dark",
         base: true,
         styled: true,

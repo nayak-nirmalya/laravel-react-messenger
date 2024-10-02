@@ -5,6 +5,7 @@ import ChatLayout from "@/Layouts/ChatLayout";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import ConversationHeader from "@/Components/App/ConversationHeader";
 import MessageItem from "@/Components/App/MessageItem";
+import MessageInput from "@/Components/App/MessageInput";
 
 function Home({ messages = null, selectedConversation = null }) {
     const [localMessages, setLocalMessages] = useState([]);
@@ -59,7 +60,7 @@ function Home({ messages = null, selectedConversation = null }) {
                             </div>
                         )}
                     </div>
-                    {/* <MessageInput conversation={selectedConversation} /> */}
+                    <MessageInput conversation={selectedConversation} />
                 </>
             )}
         </>

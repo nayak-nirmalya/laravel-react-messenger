@@ -7,13 +7,12 @@ import ConversationHeader from "@/Components/App/ConversationHeader";
 import MessageItem from "@/Components/App/MessageItem";
 
 function Home({ messages = null, selectedConversation = null }) {
-    console.log({ messages });
     const [localMessages, setLocalMessages] = useState([]);
 
     const messagesCtrRef = useRef(null);
 
     useEffect(() => {
-        setLocalMessages(messages);
+        setLocalMessages(messages ? messages.data.reverse() : []);
     }, [messages]);
 
     return (

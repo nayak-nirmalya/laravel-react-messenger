@@ -6,9 +6,9 @@ import {
     HandThumbUpIcon,
     PaperAirplaneIcon,
 } from "@heroicons/react/24/solid";
+import axios from "axios";
 
 import NewMessageInput from "./NewMessageInput";
-import axios from "axios";
 
 export default function MessageInput({ conversation = null }) {
     const [newMessage, setNewMessage] = useState("");
@@ -80,6 +80,7 @@ export default function MessageInput({ conversation = null }) {
             <div className="order-1 px-3 xs:p-0 min-w-[220px] basis-full xs:basis-0 xs:order-2 flex-1 relative">
                 <div className="flex">
                     <NewMessageInput
+                        onSend={onSendClick}
                         value={newMessage}
                         onChange={(ev) => setNewMessage(ev.target.value)}
                     />

@@ -7,10 +7,15 @@ import ConversationHeader from "@/Components/App/ConversationHeader";
 import MessageItem from "@/Components/App/MessageItem";
 import MessageInput from "@/Components/App/MessageInput";
 
+import { useEventBus } from "@/EventBus";
+
 function Home({ messages = null, selectedConversation = null }) {
+    const { on } = useEventBus();
     const [localMessages, setLocalMessages] = useState([]);
 
     const messagesCtrRef = useRef(null);
+
+    const messageCreated = () => {};
 
     useEffect(() => {
         setTimeout(() => {
@@ -19,6 +24,12 @@ function Home({ messages = null, selectedConversation = null }) {
                     messagesCtrRef.current.scrollHeight;
             }
         }, 10);
+
+        const offCreated = on("message.created", messageCreated);
+
+        return () => {
+            offCreated();
+        };
     }, [selectedConversation]);
 
     useEffect(() => {

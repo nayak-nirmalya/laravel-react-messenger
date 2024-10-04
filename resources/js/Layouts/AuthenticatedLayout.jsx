@@ -6,8 +6,11 @@ import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 
+import { useEventBus } from "@/EventBus";
+
 export default function Authenticated({ header, children }) {
     const page = usePage();
+    const { emit } = useEventBus();
 
     const user = page.props.auth.user;
     const conversations = page.props.conversations;
@@ -36,23 +39,23 @@ export default function Authenticated({ header, children }) {
                     console.log("SocketMessage", e);
                     const message = e.message;
 
-                    // emit("message.created", message);
+                    emit("message.created", message);
                     if (message.sender_id === user.id) {
                         return;
                     }
 
-                    // emit("newMessageNotification", {
-                    //     user: message.sender,
-                    //     group_id: message.group_id,
-                    //     message:
-                    //         message.message ||
-                    //         `Shared ${
-                    //             message.attachments.length === 1
-                    //                 ? "an attachment"
-                    //                 : message.attachments.length +
-                    //                   " attachments"
-                    //         }`,
-                    // });
+                    emit("newMessageNotification", {
+                        user: message.sender,
+                        group_id: message.group_id,
+                        message:
+                            message.message ||
+                            `Shared ${
+                                message.attachments.length === 1
+                                    ? "an attachment"
+                                    : message.attachments.length +
+                                      " attachments"
+                            }`,
+                    });
                 });
         });
 

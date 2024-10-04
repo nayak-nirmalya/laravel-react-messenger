@@ -15,7 +15,24 @@ function Home({ messages = null, selectedConversation = null }) {
 
     const messagesCtrRef = useRef(null);
 
-    const messageCreated = () => {};
+    const messageCreated = (message) => {
+        if (
+            selectedConversation &&
+            selectedConversation.is_group &&
+            selectedConversation.id == message.group_id
+        ) {
+            setLocalMessages((prevMessages) => [...prevMessages, message]);
+        }
+
+        // prettier-ignore
+        if (
+            selectedConversation &&
+            selectedConversation.is_user &&
+            (selectedConversation.id == message.sender_id||selectedConversation.id == message.receiver_id)
+        ) {
+            setLocalMessages((prevMessages) => [...prevMessages, message]);
+        }
+    };
 
     useEffect(() => {
         setTimeout(() => {

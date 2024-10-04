@@ -31,3 +31,7 @@ export const EventBusProvider = ({ children }) => {
         </EventBusContext.Provider>
     );
 };
+
+export const useEventBus = () => {
+    return React.useContext(EventBusContext);
+};

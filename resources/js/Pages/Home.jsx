@@ -14,6 +14,7 @@ function Home({ messages = null, selectedConversation = null }) {
     const { on } = useEventBus();
     const [localMessages, setLocalMessages] = useState([]);
     const [noMoreMessages, setNoMoreMessages] = useState();
+    const [scrollFromBottom, setScrollFromBottom] = useState();
 
     const messagesCtrRef = useRef(null);
     const loadMoreIntersect = useRef(null);
@@ -28,6 +29,18 @@ function Home({ messages = null, selectedConversation = null }) {
                     setNoMoreMessages(true);
                     return;
                 }
+
+                const scrollHeight = messagesCtrRef.current.scrollHeight;
+                const scrollTop = messagesCtrRef.current.scrollTop;
+                const clientHeight = messagesCtrRef.current.clientHeight;
+                const tmpScrollFromBottom =
+                    scrollHeight - scrollTop - clientHeight;
+                console.log("tmpScrollFromBottom", tmpScrollFromBottom);
+                setScrollFromBottom(scrollHeight - scrollTop - clientHeight);
+
+                setLocalMessages((prevMessages) => {
+                    return [...data.data.reverse(), ...prevMessages];
+                });
             });
     }, [localMessages]);
 

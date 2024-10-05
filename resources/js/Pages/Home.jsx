@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
 
 import ChatLayout from "@/Layouts/ChatLayout";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -12,8 +13,23 @@ import { useEventBus } from "@/EventBus";
 function Home({ messages = null, selectedConversation = null }) {
     const { on } = useEventBus();
     const [localMessages, setLocalMessages] = useState([]);
+    const [noMoreMessages, setNoMoreMessages] = useState();
 
     const messagesCtrRef = useRef(null);
+    const loadMoreIntersect = useRef(null);
+
+    const loadMoreMessages = useCallback(() => {
+        const [firstMessage] = localMessages;
+
+        axios
+            .get(route("message.loadOlder", firstMessage.id))
+            .then(({ data }) => {
+                if (data.data.length === 0) {
+                    setNoMoreMessages(true);
+                    return;
+                }
+            });
+    }, [localMessages]);
 
     const messageCreated = (message) => {
         if (
@@ -81,6 +97,7 @@ function Home({ messages = null, selectedConversation = null }) {
                         )}
                         {localMessages.length > 0 && (
                             <div className="flex flex-1 flex-col">
+                                <div ref={loadMoreIntersect}></div>
                                 {localMessages.map((message) => (
                                     <MessageItem
                                         key={message.id}

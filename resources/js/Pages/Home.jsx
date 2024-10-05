@@ -20,6 +20,8 @@ function Home({ messages = null, selectedConversation = null }) {
     const loadMoreIntersect = useRef(null);
 
     const loadMoreMessages = useCallback(() => {
+        if (noMoreMessages) return;
+
         const [firstMessage] = localMessages;
 
         axios
@@ -33,16 +35,13 @@ function Home({ messages = null, selectedConversation = null }) {
                 const scrollHeight = messagesCtrRef.current.scrollHeight;
                 const scrollTop = messagesCtrRef.current.scrollTop;
                 const clientHeight = messagesCtrRef.current.clientHeight;
-                const tmpScrollFromBottom =
-                    scrollHeight - scrollTop - clientHeight;
-                console.log("tmpScrollFromBottom", tmpScrollFromBottom);
                 setScrollFromBottom(scrollHeight - scrollTop - clientHeight);
 
                 setLocalMessages((prevMessages) => {
                     return [...data.data.reverse(), ...prevMessages];
                 });
             });
-    }, [localMessages]);
+    }, [localMessages, noMoreMessages]);
 
     const messageCreated = (message) => {
         if (
@@ -85,14 +84,12 @@ function Home({ messages = null, selectedConversation = null }) {
     useEffect(() => {
         if (messagesCtrRef.current && scrollFromBottom !== null) {
             messagesCtrRef.current.scrollTop =
-                messagesCtrRef.current.scrollTop -
+                messagesCtrRef.current.scrollHeight -
                 messagesCtrRef.current.offsetHeight -
                 scrollFromBottom;
         }
 
-        if (noMoreMessages) {
-            return;
-        }
+        if (noMoreMessages) return;
 
         const observer = new IntersectionObserver(
             (entries) =>

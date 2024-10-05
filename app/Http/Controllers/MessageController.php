@@ -59,10 +59,10 @@ class MessageController extends Controller
                         ->where('receiver_id', $message->receiver_id)
                         ->orWhere('sender_id', $message->receiver_id)
                         ->where('receiver_id', $message->sender_id)
-                        ->latest()
-                        ->paginate(10)
                     ;
                 })
+                ->latest()
+                ->paginate(10)
             ;
         }
 

@@ -13,8 +13,8 @@ import { useEventBus } from "@/EventBus";
 function Home({ messages = null, selectedConversation = null }) {
     const { on } = useEventBus();
     const [localMessages, setLocalMessages] = useState([]);
-    const [noMoreMessages, setNoMoreMessages] = useState();
-    const [scrollFromBottom, setScrollFromBottom] = useState();
+    const [noMoreMessages, setNoMoreMessages] = useState(false);
+    const [scrollFromBottom, setScrollFromBottom] = useState(0);
 
     const messagesCtrRef = useRef(null);
     const loadMoreIntersect = useRef(null);
@@ -81,6 +81,37 @@ function Home({ messages = null, selectedConversation = null }) {
     useEffect(() => {
         setLocalMessages(messages ? messages.data.reverse() : []);
     }, [messages]);
+
+    useEffect(() => {
+        if (messagesCtrRef.current && scrollFromBottom !== null) {
+            messagesCtrRef.current.scrollTop =
+                messagesCtrRef.current.scrollTop -
+                messagesCtrRef.current.offsetHeight -
+                scrollFromBottom;
+        }
+
+        if (noMoreMessages) {
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            (entries) =>
+                entries.forEach(
+                    (entry) => entry.isIntersecting && loadMoreMessages()
+                ),
+            { rootMargin: "0px 0px 250px 0px" }
+        );
+
+        if (loadMoreIntersect.current) {
+            setTimeout(() => {
+                observer.observe(loadMoreIntersect.current);
+            }, 100);
+        }
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [localMessages]);
 
     return (
         <>

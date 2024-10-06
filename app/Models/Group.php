@@ -59,7 +59,7 @@ class Group extends Model
             'created_at' => $this->created_at,
             'updated_at' => $this->created_at,
             'last_message' => $this->last_message,
-            'last_message_date' => $this->last_message_date . ' UTC',
+            'last_message_date' => $this->last_message_date ? ($this->last_message_date . ' UTC') : null,
         ];
     }
 

@@ -72,6 +72,9 @@ function Home({ messages = null, selectedConversation = null }) {
 
         const offCreated = on("message.created", messageCreated);
 
+        setScrollFromBottom(0);
+        setNoMoreMessages(false);
+
         return () => {
             offCreated();
         };

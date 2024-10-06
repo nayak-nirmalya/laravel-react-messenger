@@ -16,6 +16,8 @@ export default function MessageInput({ conversation = null }) {
     const [messageSending, setMessageSending] = useState(false);
 
     const onSendClick = () => {
+        if (messageSending) return;
+
         if (newMessage.trim() === "") {
             setInputErrorMessage(
                 "Please provide a message or upload attachments."
@@ -81,13 +83,13 @@ export default function MessageInput({ conversation = null }) {
                 <div className="flex">
                     <NewMessageInput
                         onSend={onSendClick}
-                        disable={messageSending}
                         value={newMessage}
                         onChange={(ev) => setNewMessage(ev.target.value)}
                     />
                     <button
                         className="btn btn-info rounded-l-none"
                         onClick={onSendClick}
+                        disabled={messageSending}
                     >
                         <PaperAirplaneIcon className="w-6" />
                         <span className="hidden sm:inline">Send</span>

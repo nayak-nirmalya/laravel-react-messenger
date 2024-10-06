@@ -81,6 +81,7 @@ export default function MessageInput({ conversation = null }) {
                 <div className="flex">
                     <NewMessageInput
                         onSend={onSendClick}
+                        disable={messageSending}
                         value={newMessage}
                         onChange={(ev) => setNewMessage(ev.target.value)}
                     />
@@ -88,9 +89,6 @@ export default function MessageInput({ conversation = null }) {
                         className="btn btn-info rounded-l-none"
                         onClick={onSendClick}
                     >
-                        {messageSending && (
-                            <span className="loading loading-spinner loading-xs"></span>
-                        )}
                         <PaperAirplaneIcon className="w-6" />
                         <span className="hidden sm:inline">Send</span>
                     </button>

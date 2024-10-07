@@ -79,3 +79,25 @@
     padding-left: 1.5em;
     padding-right: 1.5em;
 }
+
+.chat-message-content code {
+    font-family: "Courier New", monospace;
+    font-style: italic;
+    padding: 2px 4px;
+    border-radius: 6px;
+    font-size: 90%;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.chat-message-content pre {
+    padding: 1rem;
+    white-space: no-wrap;
+    overflow-x: auto;
+    font-style: italic;
+    border-radius: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.chat-message-content pre code {
+    background-color: transparent;
+}

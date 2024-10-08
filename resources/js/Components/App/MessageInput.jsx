@@ -5,6 +5,7 @@ import {
     FaceSmileIcon,
     HandThumbUpIcon,
     PaperAirplaneIcon,
+    XCircleIcon,
 } from "@heroicons/react/24/solid";
 import axios from "axios";
 import EmojiPicker from "emoji-picker-react";
@@ -153,6 +154,47 @@ export default function MessageInput({ conversation = null }) {
                 {inputErrorMessage && (
                     <p className="text-xs text-red-400">{inputErrorMessage}</p>
                 )}
+                <div className="flex flex-wrap gap-1 mt-2">
+                    {chosenFiles.map((file) => (
+                        <div
+                            key={file.file.name}
+                            className={
+                                `relative flex justify-between cursor-pointer ` +
+                                (!isImage(file.file) ? "w-[240px]" : "")
+                            }
+                        >
+                            {isImage(file.file) && (
+                                <img
+                                    src={file.url}
+                                    alt="Uploaded Image"
+                                    className="w-16 h-16 object-cover"
+                                />
+                            )}
+                            {isAudio(file.file) && (
+                                <CutstomAudioPlayer
+                                    file={file}
+                                    showVolume={false}
+                                />
+                            )}
+                            {!isAudio(file.file) && !isImage(file.file) && (
+                                <AttachmentPreview file={file} />
+                            )}
+                            <button
+                                onClick={() => {
+                                    setChosenFiles(
+                                        chosenFiles.filter(
+                                            (f) =>
+                                                f.file.name !== file.file.name
+                                        )
+                                    );
+                                }}
+                                className="absolute w-6 h-6 rounded-full bg-gray-800 -right-2 -top-2 text-gray-300 hover:text-gray-100 z-10"
+                            >
+                                <XCircleIcon className="w-6" />
+                            </button>
+                        </div>
+                    ))}
+                </div>
             </div>
             <div className="order-3 xs:order-2 p-2 flex">
                 <Popover className="relative">

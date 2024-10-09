@@ -6,7 +6,7 @@ import { formatMessageDateLong } from "@/helpers";
 
 import UserAvatar from "./UserAvatar";
 
-export default function MessageItem({ message }) {
+export default function MessageItem({ message, attachmentClick }) {
     const currentUser = usePage().props.auth.user;
 
     return (
@@ -40,6 +40,10 @@ export default function MessageItem({ message }) {
                     <div className="chat-message-content">
                         <ReactMarkdown>{message.message}</ReactMarkdown>
                     </div>
+                    <MessageAttachments
+                        attachments={message.attachments}
+                        attachmentClick={attachmentClick}
+                    />
                 </div>
             </div>
         </div>

@@ -12,12 +12,23 @@ import { useEventBus } from "@/EventBus";
 
 function Home({ messages = null, selectedConversation = null }) {
     const { on } = useEventBus();
+
     const [localMessages, setLocalMessages] = useState([]);
     const [noMoreMessages, setNoMoreMessages] = useState(false);
     const [scrollFromBottom, setScrollFromBottom] = useState(0);
+    const [showAttachmentPreview, setShowAttachmentPreview] = useState(false);
+    const [previewAttachment, setPreviewAttachment] = useState({});
 
     const messagesCtrRef = useRef(null);
     const loadMoreIntersect = useRef(null);
+
+    const onAttachmentClick = (attachments, index) => {
+        setPreviewAttachment({
+            attachments,
+            index,
+        });
+        setShowAttachmentPreview(true);
+    };
 
     const loadMoreMessages = useCallback(() => {
         if (noMoreMessages) return;
@@ -153,6 +164,14 @@ function Home({ messages = null, selectedConversation = null }) {
                     </div>
                     <MessageInput conversation={selectedConversation} />
                 </>
+            )}
+            {previewAttachment.attachments && (
+                <AttachmentPreviewModal
+                    attachments={previewAttachment.attachments}
+                    index={previewAttachment.index}
+                    show={showAttachmentPreview}
+                    onClose={() => setShowAttachmentPreview(false)}
+                />
             )}
         </>
     );

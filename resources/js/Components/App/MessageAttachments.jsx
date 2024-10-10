@@ -64,6 +64,17 @@ export default function MessageAttachments({ attachments, attachmentClick }) {
                                     ></iframe>
                                 </div>
                             )}
+                            {!isPreviewable(attachment) && (
+                                <a
+                                    onClick={(ev) => ev.stopPropagation()}
+                                    download
+                                    href={attachment.url}
+                                    className="flex flex-col justify-center items-center"
+                                >
+                                    <PaperClipIcon className="w-10 h-10 mb-3" />
+                                    <small>{attachment.name}</small>
+                                </a>
+                            )}
                         </div>
                     ))}
                 </div>

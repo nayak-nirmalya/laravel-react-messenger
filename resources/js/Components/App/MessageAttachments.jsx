@@ -40,6 +40,13 @@ export default function MessageAttachments({ attachments, attachmentClick }) {
                                     className="object-contain aspect-square"
                                 />
                             )}
+                            {isVideo(attachment) && (
+                                <div className="relative flex justify-center items-center">
+                                    <PlayCircleIcon className="z-20 absolute w-16 h-16 text-white opacity-70" />
+                                    <div className="absolute left-0 top-0 w-full h-full bg-black/50 z-10"></div>
+                                    <video src={attachment.url}></video>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>

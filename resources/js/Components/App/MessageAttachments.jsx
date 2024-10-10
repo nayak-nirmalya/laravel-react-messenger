@@ -34,6 +34,12 @@ export default function MessageAttachments({ attachments, attachmentClick }) {
                                     <ArrowDownTrayIcon className="w-4 h-4" />
                                 </a>
                             )}
+                            {isImage(attachment) && (
+                                <img
+                                    src={attachment.url}
+                                    className="object-contain aspect-square"
+                                />
+                            )}
                         </div>
                     ))}
                 </div>

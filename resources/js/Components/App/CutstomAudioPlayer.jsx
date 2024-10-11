@@ -18,5 +18,29 @@ export default function CutstomAudioPlayer({ file, showVolume = true }) {
             setDuration(audio.duration);
             audio.play();
         }
+
+        setIsPlaying(!isPlaying);
+    };
+
+    const handleVolumeChange = (ev) => {
+        const volume = ev.target.value;
+        audioRef.current.volume = volume;
+        setVolume(volume);
+    };
+
+    const handleTimeUpdate = (ev) => {
+        const audio = audioRef.current;
+
+        setDuration(audio.duration);
+        setCurrentTime(ev.target.currentTime);
+    };
+
+    const handleLoadedMetadata = (ev) => {
+        setDuration(ev.target.duration);
+    };
+
+    const handleSeekChange = (ev) => {
+        const time = ev.target.value;
+        audioRef.current.currentTime = time;
     };
 }

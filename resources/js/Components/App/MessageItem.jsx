@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { formatMessageDateLong } from "@/helpers";
 
 import UserAvatar from "./UserAvatar";
+import MessageAttachments from "./MessageAttachments";
 
 export default function MessageItem({ message, attachmentClick }) {
     const currentUser = usePage().props.auth.user;

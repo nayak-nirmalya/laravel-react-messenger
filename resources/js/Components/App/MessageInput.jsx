@@ -11,6 +11,8 @@ import axios from "axios";
 import EmojiPicker from "emoji-picker-react";
 import { Popover, PopoverPanel, PopoverButton } from "@headlessui/react";
 
+import { isAudio, isImage } from "@/helpers";
+
 import NewMessageInput from "./NewMessageInput";
 
 export default function MessageInput({ conversation = null }) {

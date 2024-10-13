@@ -157,6 +157,7 @@ function Home({ messages = null, selectedConversation = null }) {
                                     <MessageItem
                                         key={message.id}
                                         message={message}
+                                        attachmentClick={onAttachmentClick}
                                     />
                                 ))}
                             </div>

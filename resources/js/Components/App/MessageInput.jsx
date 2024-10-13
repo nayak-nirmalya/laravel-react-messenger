@@ -14,6 +14,7 @@ import { Popover, PopoverPanel, PopoverButton } from "@headlessui/react";
 import { isAudio, isImage } from "@/helpers";
 
 import NewMessageInput from "./NewMessageInput";
+import AttachmentPreview from "./AttachmentPreview";
 
 export default function MessageInput({ conversation = null }) {
     const [newMessage, setNewMessage] = useState("");

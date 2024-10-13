@@ -1,4 +1,9 @@
-import { Dialog, Transition, TransitionChild } from "@headlessui/react";
+import {
+    Dialog,
+    DialogPanel,
+    Transition,
+    TransitionChild,
+} from "@headlessui/react";
 import {
     PaperClipIcon,
     XMarkIcon,

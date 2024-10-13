@@ -7,6 +7,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import ConversationHeader from "@/Components/App/ConversationHeader";
 import MessageItem from "@/Components/App/MessageItem";
 import MessageInput from "@/Components/App/MessageInput";
+import AttachmentPreviewModal from "@/Components/App/AttachmentPreviewModal";
 
 import { useEventBus } from "@/EventBus";
 

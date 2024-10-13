@@ -72,7 +72,9 @@ export default function MessageAttachments({ attachments, attachmentClick }) {
                                     className="flex flex-col justify-center items-center"
                                 >
                                     <PaperClipIcon className="w-10 h-10 mb-3" />
-                                    <small>{attachment.name}</small>
+                                    <small className="text-center">
+                                        {attachment.name}
+                                    </small>
                                 </a>
                             )}
                         </div>

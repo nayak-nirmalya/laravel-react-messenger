@@ -16,7 +16,7 @@ export default function MessageAttachments({ attachments, attachmentClick }) {
                             className={
                                 `group flex flex-col items-center justify-center text-gray-500 relative cursor-pointer ` +
                                 (isAudio(attachment)
-                                    ? "w-48"
+                                    ? "w-72"
                                     : "w-32 aspect-square bg-blue-100")
                             }
                             key={attachment.id}

@@ -15,6 +15,7 @@ import { isAudio, isImage } from "@/helpers";
 
 import NewMessageInput from "./NewMessageInput";
 import AttachmentPreview from "./AttachmentPreview";
+import CutstomAudioPlayer from "./CutstomAudioPlayer";
 
 export default function MessageInput({ conversation = null }) {
     const [newMessage, setNewMessage] = useState("");
@@ -72,7 +73,6 @@ export default function MessageInput({ conversation = null }) {
                     const progress = Math.round(
                         (progressEvent.loaded / progressEvent.total) * 100
                     );
-                    console.log(progress);
                     setUploadProgress(progress);
                 },
             })

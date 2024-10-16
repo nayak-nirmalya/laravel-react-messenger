@@ -1,7 +1,10 @@
+import { Link } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { useEventBus } from "@/EventBus";
+
+import UserAvatar from "./UserAvatar";
 
 export default function NewMessageNotification({}) {
     const [toasts, setToasts] = useState([]);
@@ -9,10 +12,13 @@ export default function NewMessageNotification({}) {
     const { on } = useEventBus();
 
     useEffect(() => {
-        on("toast.show", (message) => {
+        on("newMessageNotification", ({ message, user, group_id }) => {
             const uuid = uuidv4();
 
-            setToasts((oldToasts) => [...oldToasts, { message, uuid }]);
+            setToasts((oldToasts) => [
+                ...oldToasts,
+                { message, uuid, user, group_id },
+            ]);
 
             setTimeout(() => {
                 setToasts((oldToasts) =>
@@ -23,13 +29,22 @@ export default function NewMessageNotification({}) {
     }, [on]);
 
     return (
-        <div className="toast min-w-[240px]">
+        <div className="toast toast-top toast-center min-w-[240px]">
             {toasts.map((toast, index) => (
                 <div
                     key={toast.uuid}
                     className="alert alert-success py-3 px-4 text-gray-100 rounded-md"
                 >
-                    <span>{toast.message}</span>
+                    <Link
+                        href={
+                            toast.group_id
+                                ? route("chat.group", toast.group_id)
+                                : route("chat.user", toast.user.id)
+                        }
+                    >
+                        <UserAvatar user={toast.user} />
+                        <span>{toast.message}</span>
+                    </Link>
                 </div>
             ))}
         </div>

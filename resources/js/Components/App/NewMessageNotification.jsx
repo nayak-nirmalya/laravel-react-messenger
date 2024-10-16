@@ -41,6 +41,7 @@ export default function NewMessageNotification({}) {
                                 ? route("chat.group", toast.group_id)
                                 : route("chat.user", toast.user.id)
                         }
+                        className="flex items-center gap-2"
                     >
                         <UserAvatar user={toast.user} />
                         <span>{toast.message}</span>

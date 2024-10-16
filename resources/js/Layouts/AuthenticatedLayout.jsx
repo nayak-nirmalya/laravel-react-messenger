@@ -6,6 +6,7 @@ import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import Toast from "@/Components/App/Toast";
+import NewMessageNotification from "@/Components/App/NewMessageNotification";
 
 import { useEventBus } from "@/EventBus";
 
@@ -240,6 +241,7 @@ export default function Authenticated({ header, children }) {
                 {children}
             </div>
             <Toast />
+            <NewMessageNotification />
         </>
     );
 }

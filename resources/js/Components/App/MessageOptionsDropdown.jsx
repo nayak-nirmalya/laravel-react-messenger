@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
+import { Menu, MenuItem, Transition } from "@headlessui/react";
 import {
     EllipsisVerticalIcon,
     LockClosedIcon,
@@ -10,6 +10,20 @@ import {
 import axios from "axios";
 
 export default function MessageOptionsDropdown({ message }) {
+    const onMessageDelete = () => {
+        console.log("[DeleteMessage]");
+
+        axios
+            .post(route("message.destroy", message.id))
+            .then((res) => {
+                console.log(res);
+                emit("message.deleted", message);
+            })
+            .catch((err) => {
+                console.error("[onMessageDelete]", err);
+            });
+    };
+
     return (
         <div>
             <Menu as="div" className="relative inline-block text-left">
@@ -26,12 +40,12 @@ export default function MessageOptionsDropdown({ message }) {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-95"
                 >
-                    <Menu.Items className="absolute right-0 mt-2 w-48 rounded-md bg-gray-800 shadow-lg z-50">
+                    <MenuItems className="absolute right-0 mt-2 w-48 rounded-md bg-gray-800 shadow-lg z-50">
                         <div className="px-1 py-1">
-                            <Menu.Item>
+                            <MenuItem>
                                 {({ active }) => (
                                     <button
-                                        onClick={onBlockUser}
+                                        onClick={onMessageDelete}
                                         className={`${
                                             active
                                                 ? "bg-black/30 text-white"
@@ -52,10 +66,10 @@ export default function MessageOptionsDropdown({ message }) {
                                         )}
                                     </button>
                                 )}
-                            </Menu.Item>
+                            </MenuItem>
                         </div>
                         <div className="px-1 py-1">
-                            <Menu.Item>
+                            <MenuItem>
                                 {({ active }) => (
                                     <button
                                         onClick={changeUserRole}
@@ -79,9 +93,9 @@ export default function MessageOptionsDropdown({ message }) {
                                         )}
                                     </button>
                                 )}
-                            </Menu.Item>
+                            </MenuItem>
                         </div>
-                    </Menu.Items>
+                    </MenuItems>
                 </Transition>
             </Menu>
         </div>

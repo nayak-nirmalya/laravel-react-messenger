@@ -1,5 +1,11 @@
 import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
+import {
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
+    Transition,
+} from "@headlessui/react";
 import {
     EllipsisVerticalIcon,
     LockClosedIcon,
@@ -48,9 +54,9 @@ export default function UserOptionsDropdown({ conversation }) {
         <div>
             <Menu as="div" className="relative inline-block text-left">
                 <div>
-                    <Menu.Button className="flex justify-center items-center w-8 h-8 rounded-full hover:bg-black/40">
+                    <MenuButton className="flex justify-center items-center w-8 h-8 rounded-full hover:bg-black/40">
                         <EllipsisVerticalIcon className="h-5 w-5" />
-                    </Menu.Button>
+                    </MenuButton>
                 </div>
                 <Transition
                     as={Fragment}
@@ -60,9 +66,9 @@ export default function UserOptionsDropdown({ conversation }) {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-95"
                 >
-                    <Menu.Items className="absolute right-0 mt-2 w-48 rounded-md bg-gray-800 shadow-lg z-50">
+                    <MenuItems className="absolute right-0 mt-2 w-48 rounded-md bg-gray-800 shadow-lg z-50">
                         <div className="px-1 py-1">
-                            <Menu.Item>
+                            <MenuItem>
                                 {({ active }) => (
                                     <button
                                         onClick={onBlockUser}
@@ -86,10 +92,10 @@ export default function UserOptionsDropdown({ conversation }) {
                                         )}
                                     </button>
                                 )}
-                            </Menu.Item>
+                            </MenuItem>
                         </div>
                         <div className="px-1 py-1">
-                            <Menu.Item>
+                            <MenuItem>
                                 {({ active }) => (
                                     <button
                                         onClick={changeUserRole}
@@ -113,9 +119,9 @@ export default function UserOptionsDropdown({ conversation }) {
                                         )}
                                     </button>
                                 )}
-                            </Menu.Item>
+                            </MenuItem>
                         </div>
-                    </Menu.Items>
+                    </MenuItems>
                 </Transition>
             </Menu>
         </div>

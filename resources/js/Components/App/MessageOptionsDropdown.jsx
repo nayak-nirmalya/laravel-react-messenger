@@ -9,14 +9,15 @@ import {
 import { EllipsisVerticalIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 
-export default function MessageOptionsDropdown({ message }) {
-    const onMessageDelete = () => {
-        console.log("[DeleteMessage]");
+import { useEventBus } from "@/EventBus";
 
+export default function MessageOptionsDropdown({ message }) {
+    const { emit } = useEventBus();
+
+    const onMessageDelete = () => {
         axios
             .delete(route("message.destroy", message.id))
-            .then((res) => {
-                console.log(res);
+            .then(() => {
                 emit("message.deleted", message);
             })
             .catch((err) => {
@@ -40,7 +41,7 @@ export default function MessageOptionsDropdown({ message }) {
                     leave="transition ease-in duration-75"
                     leaveFrom="transform opacity-100 scale-95"
                 >
-                    <MenuItems className="absolute right-0 mt-2 w-48 rounded-md bg-gray-800 shadow-lg z-50">
+                    <MenuItems className="absolute left-0 mt-2 w-48 rounded-md bg-gray-800 shadow-lg z-50">
                         <div className="px-1 py-1">
                             <MenuItem>
                                 {({ active }) => (

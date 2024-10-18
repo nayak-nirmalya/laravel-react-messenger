@@ -1,12 +1,12 @@
 import { Fragment } from "react";
-import { Menu, MenuItem, Transition } from "@headlessui/react";
 import {
-    EllipsisVerticalIcon,
-    LockClosedIcon,
-    LockOpenIcon,
-    ShieldCheckIcon,
-    UserIcon,
-} from "@heroicons/react/24/solid";
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuItems,
+    Transition,
+} from "@headlessui/react";
+import { EllipsisVerticalIcon, TrashIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 
 export default function MessageOptionsDropdown({ message }) {
@@ -14,7 +14,7 @@ export default function MessageOptionsDropdown({ message }) {
         console.log("[DeleteMessage]");
 
         axios
-            .post(route("message.destroy", message.id))
+            .delete(route("message.destroy", message.id))
             .then((res) => {
                 console.log(res);
                 emit("message.deleted", message);
@@ -25,12 +25,12 @@ export default function MessageOptionsDropdown({ message }) {
     };
 
     return (
-        <div>
+        <div className="absolute right-full text-gray-100 top-1/2 -translate-y-1/2 z-10">
             <Menu as="div" className="relative inline-block text-left">
                 <div>
-                    <Menu.Button className="flex justify-center items-center w-8 h-8 rounded-full hover:bg-black/40">
+                    <MenuButton className="flex justify-center items-center w-8 h-8 rounded-full hover:bg-black/40">
                         <EllipsisVerticalIcon className="h-5 w-5" />
-                    </Menu.Button>
+                    </MenuButton>
                 </div>
                 <Transition
                     as={Fragment}
@@ -52,45 +52,8 @@ export default function MessageOptionsDropdown({ message }) {
                                                 : "text-gray-100"
                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                     >
-                                        {conversation.blocked_at && (
-                                            <>
-                                                <LockOpenIcon className="w-4 h-4 mr-2" />
-                                                Unblock User
-                                            </>
-                                        )}
-                                        {!conversation.blocked_at && (
-                                            <>
-                                                <LockClosedIcon className="w-4 h-4 mr-2" />
-                                                Block User
-                                            </>
-                                        )}
-                                    </button>
-                                )}
-                            </MenuItem>
-                        </div>
-                        <div className="px-1 py-1">
-                            <MenuItem>
-                                {({ active }) => (
-                                    <button
-                                        onClick={changeUserRole}
-                                        className={`${
-                                            active
-                                                ? "bg-black/30 text-white"
-                                                : "text-gray-100"
-                                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                    >
-                                        {conversation.is_adimin && (
-                                            <>
-                                                <UserIcon className="w-4 h-4 mr-2" />
-                                                Make Regular User
-                                            </>
-                                        )}
-                                        {!conversation.is_adimin && (
-                                            <>
-                                                <ShieldCheckIcon className="w-4 h-4 mr-2" />
-                                                Make Admin
-                                            </>
-                                        )}
+                                        <TrashIcon className="w-4 h-4 mr-2" />
+                                        Delete
                                     </button>
                                 )}
                             </MenuItem>

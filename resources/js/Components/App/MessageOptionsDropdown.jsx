@@ -17,8 +17,8 @@ export default function MessageOptionsDropdown({ message }) {
     const onMessageDelete = () => {
         axios
             .delete(route("message.destroy", message.id))
-            .then(() => {
-                emit("message.deleted", message);
+            .then((res) => {
+                emit("message.deleted", { message, prevMessage: res.data });
             })
             .catch((err) => {
                 console.error("[onMessageDelete]", err);

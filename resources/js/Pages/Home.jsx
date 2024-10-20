@@ -74,7 +74,7 @@ function Home({ messages = null, selectedConversation = null }) {
         }
     };
 
-    const messageDeleted = (message) => {
+    const messageDeleted = ({ message }) => {
         if (
             selectedConversation &&
             selectedConversation.is_group &&

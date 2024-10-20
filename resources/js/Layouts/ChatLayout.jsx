@@ -30,20 +30,18 @@ export default function Chat({ children }) {
 
     const messageCreated = (message) => {
         setLocalConversations((oldUsers) => {
+            // prettier-ignore
             return oldUsers.map((user) => {
-                // if message is for user
                 if (
                     message.receiver_id &&
                     !user.is_group &&
-                    (user.id == message.sender_id ||
-                        user.id == message.receiver_id)
+                    (user.id == message.sender_id || user.id == message.receiver_id)
                 ) {
                     user.last_message = message.message;
                     user.last_message_date = message.created_at;
                     return user;
                 }
 
-                // if message is for group
                 if (
                     message.group_id &&
                     user.is_group &&
@@ -59,10 +57,19 @@ export default function Chat({ children }) {
         });
     };
 
+    const messageDeleted = ({ prevMessage }) => {
+        if (!prevMessage) return;
+
+        messageCreated(prevMessage);
+    };
+
     useEffect(() => {
         const offCreated = on("message.created", messageCreated);
+        const offDeleted = on("message.deleted", messageDeleted);
+
         return () => {
             offCreated();
+            offDeleted();
         };
     }, [on]);
 
@@ -78,9 +85,7 @@ export default function Chat({ children }) {
                 }
 
                 if (a.last_message_date && b.last_message_date) {
-                    return b.last_message_date.localeCompare(
-                        a.last_message_date
-                    );
+                    b.last_message_date.localeCompare(a.last_message_date);
                 } else if (a.last_message_date) {
                     return -1;
                 } else if (b.last_message_date) {

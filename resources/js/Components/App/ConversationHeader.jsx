@@ -7,8 +7,24 @@ import { Link, usePage } from "@inertiajs/react";
 
 import UserAvatar from "./UserAvatar";
 import GroupAvatar from "./GroupAvatar";
+import axios from "axios";
 
 export default function ConversationHeader({ selectedConversation }) {
+    const onDeleteGroup = () => {
+        if (!window.confirm("Are you sure you want to delete this group?")) {
+            return;
+        }
+
+        axios
+            .delete(route("group.destroy", selectedConversation.id))
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.error("[onDeleteGroup]", err);
+            });
+    };
+
     return (
         <>
             {selectedConversation && (

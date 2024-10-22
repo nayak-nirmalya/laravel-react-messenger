@@ -50,5 +50,23 @@ export default function GroupModal({ show = false, onClose = () => {} }) {
         });
     };
 
+    const closeModal = () => {
+        reset();
+        onClose();
+    };
+
+    useEffect(() => {
+        return on("GroupModal.show", (group) => {
+            setData({
+                name: group.name,
+                description: group.description,
+                user_ids: group.users
+                    .filter((u) => group.owner_id !== u.id)
+                    .map((u) => u.id),
+            });
+            setGroup(group);
+        });
+    }, [on]);
+
     return <></>;
 }

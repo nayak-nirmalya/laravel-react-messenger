@@ -6,6 +6,8 @@ import {
 import { Link, usePage } from "@inertiajs/react";
 import axios from "axios";
 
+import { useEventBus } from "@/EventBus";
+
 import UserAvatar from "./UserAvatar";
 import GroupAvatar from "./GroupAvatar";
 import GroupDescriptionPopover from "./GroupDescriptionPopover";
@@ -13,6 +15,8 @@ import GroupUsersPopover from "./GroupUsersPopover";
 
 export default function ConversationHeader({ selectedConversation }) {
     const authUser = usePage().props.auth.user;
+
+    const { emit } = useEventBus();
 
     const onDeleteGroup = () => {
         if (!window.confirm("Are you sure you want to delete this group?")) {

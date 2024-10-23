@@ -69,10 +69,14 @@ export default function Chat({ children }) {
     useEffect(() => {
         const offCreated = on("message.created", messageCreated);
         const offDeleted = on("message.deleted", messageDeleted);
+        const offModalShow = on("GroupModal.show", (group) => {
+            setShowGroupModal(true);
+        });
 
         return () => {
             offCreated();
             offDeleted();
+            offModalShow();
         };
     }, [on]);
 

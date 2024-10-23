@@ -3,11 +3,13 @@ import {
     PencilSquareIcon,
     TrashIcon,
 } from "@heroicons/react/24/solid";
-import { Link, usePage } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
+import axios from "axios";
 
 import UserAvatar from "./UserAvatar";
 import GroupAvatar from "./GroupAvatar";
-import axios from "axios";
+import GroupDescriptionPopover from "./GroupDescriptionPopover";
+import GroupUsersPopover from "./GroupUsersPopover";
 
 export default function ConversationHeader({ selectedConversation }) {
     const onDeleteGroup = () => {

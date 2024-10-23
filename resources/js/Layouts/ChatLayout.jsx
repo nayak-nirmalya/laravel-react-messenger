@@ -4,6 +4,8 @@ import { usePage } from "@inertiajs/react";
 
 import TextInput from "@/Components/TextInput";
 import ConversationItem from "@/Components/App/ConversationItem";
+import GroupModal from "@/Components/App/GroupModal";
+
 import { useEventBus } from "@/EventBus";
 
 export default function Chat({ children }) {
@@ -16,6 +18,7 @@ export default function Chat({ children }) {
     const [onlineUsers, setOnlineUsers] = useState({});
     const [localConversations, setLocalConversations] = useState([]);
     const [sortedConversations, setSortedConversations] = useState([]);
+    const [showGroupModal, setShowGroupModal] = useState(false);
 
     const isUserOnline = (userId) => onlineUsers[userId];
 
@@ -147,7 +150,10 @@ export default function Chat({ children }) {
                             className="tooltip tooltip-left"
                             data-tip="Create New Group"
                         >
-                            <button className="text-gray-400 hover:text-gray-200">
+                            <button
+                                onClick={(ev) => setShowGroupModal(true)}
+                                className="text-gray-400 hover:text-gray-200"
+                            >
                                 <PencilSquareIcon className="w-4 h-4 inline-block ml-2" />
                             </button>
                         </div>
@@ -179,6 +185,10 @@ export default function Chat({ children }) {
                     {children}
                 </div>
             </div>
+            <GroupModal
+                show={showGroupModal}
+                onClose={() => setShowGroupModal(false)}
+            />
         </>
     );
 }

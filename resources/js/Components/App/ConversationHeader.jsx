@@ -3,7 +3,7 @@ import {
     PencilSquareIcon,
     TrashIcon,
 } from "@heroicons/react/24/solid";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import axios from "axios";
 
 import UserAvatar from "./UserAvatar";
@@ -12,6 +12,8 @@ import GroupDescriptionPopover from "./GroupDescriptionPopover";
 import GroupUsersPopover from "./GroupUsersPopover";
 
 export default function ConversationHeader({ selectedConversation }) {
+    const authUser = usePage().props.auth.user;
+
     const onDeleteGroup = () => {
         if (!window.confirm("Are you sure you want to delete this group?")) {
             return;

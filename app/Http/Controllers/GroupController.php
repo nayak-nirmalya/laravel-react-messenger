@@ -26,7 +26,14 @@ class GroupController extends Controller
      */
     public function update(UpdateGroupRequest $request, Group $group)
     {
-        //
+        $data = $request->validated();
+        $user_ids = $data['user_ids'] ?? [];
+        $group->update($data);
+
+        $group->users()->detach();
+        $group->users()->attach(array_unique([$request->user()->id, ...$user_ids]));
+
+        return redirect()->back();
     }
 
     /**

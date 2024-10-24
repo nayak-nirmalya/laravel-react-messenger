@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Group;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -19,16 +18,9 @@ class GroupDeleted implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(public Group $group)
+    public function __construct(public int $id, public string $name)
     {
         //
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            // 'group'
-        ];
     }
 
     /**
@@ -39,7 +31,7 @@ class GroupDeleted implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            new PrivateChannel('group.deleted.' . $this->id),
         ];
     }
 }

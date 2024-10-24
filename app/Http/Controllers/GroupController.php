@@ -13,7 +13,12 @@ class GroupController extends Controller
      */
     public function store(StoreGroupRequest $request)
     {
-        //
+        $data = $request->validated();
+        $user_ids = $data['user_ids'] ?? [];
+        $group = Group::create($data);
+        $group->users()->attach(array_unique([$request->user()->id, ...$user_ids]));
+
+        return redirect()->back();
     }
 
     /**

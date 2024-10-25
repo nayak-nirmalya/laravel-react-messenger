@@ -38,7 +38,6 @@ export default function Authenticated({ header, children }) {
                     console.error("[SocketMessage]", error);
                 })
                 .listen("SocketMessage", (e) => {
-                    console.log("SocketMessage", e);
                     const message = e.message;
 
                     emit("message.created", message);
@@ -66,7 +65,6 @@ export default function Authenticated({ header, children }) {
                         console.error(["GroupDeleted"], error);
                     })
                     .listen("GroupDeleted", (e) => {
-                        console.log("GroupDeleted", e);
                         emit("group.deleted", { id: e.id, name: e.name });
                     });
             }

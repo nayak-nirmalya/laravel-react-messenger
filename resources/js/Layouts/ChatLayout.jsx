@@ -10,7 +10,7 @@ import { useEventBus } from "@/EventBus";
 
 export default function Chat({ children }) {
     const page = usePage();
-    const { on } = useEventBus();
+    const { on, emit } = useEventBus();
 
     const conversations = page.props.conversations;
     const selectedConversation = page.props.selectedConversation;
@@ -80,12 +80,11 @@ export default function Chat({ children }) {
                 );
             });
 
-            emit("toast.show", `Group ${name} was deleted.`);
+            emit("toast.show", `Group "${name}" was deleted.`);
 
             if (
-                selectedConversation &&
-                selectedConversation.is_group &&
-                selectedConversation.id == id
+                !selectedConversation ||
+                (selectedConversation.is_group && selectedConversation.id == id)
             ) {
                 router.visit(route("dashboard"));
             }

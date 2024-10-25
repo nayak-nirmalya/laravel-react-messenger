@@ -26,7 +26,7 @@ export default function ConversationHeader({ selectedConversation }) {
         axios
             .delete(route("group.destroy", selectedConversation.id))
             .then((res) => {
-                console.log(res);
+                emit("toast.show", res.data.message);
             })
             .catch((err) => {
                 console.error("[onDeleteGroup]", err);

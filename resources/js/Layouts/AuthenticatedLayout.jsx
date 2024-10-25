@@ -35,7 +35,7 @@ export default function Authenticated({ header, children }) {
 
             Echo.private(channel)
                 .error((error) => {
-                    console.log(error);
+                    console.error("[SocketMessage]", error);
                 })
                 .listen("SocketMessage", (e) => {
                     console.log("SocketMessage", e);
@@ -59,6 +59,17 @@ export default function Authenticated({ header, children }) {
                             }`,
                     });
                 });
+
+            if (conversation.is_group) {
+                Echo.private(`group.deleted.${conversation.id}`)
+                    .error((error) => {
+                        console.error(["GroupDeleted"], error);
+                    })
+                    .listen("GroupDeleted", (e) => {
+                        console.log("GroupDeleted", e);
+                        emit("group.deleted", { id: e.id, name: e.name });
+                    });
+            }
         });
 
         return () => {

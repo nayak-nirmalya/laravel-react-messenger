@@ -25,7 +25,7 @@ export default function UpdateProfileInformation({
     const submit = (e) => {
         e.preventDefault();
 
-        patch(route("profile.update"));
+        post(route("profile.update"));
     };
 
     return (
@@ -50,7 +50,6 @@ export default function UpdateProfileInformation({
                         id="avatar"
                         type="file"
                         className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-                        value={data.name}
                         onChange={(e) => setData("avatar", e.target.files[0])}
                     />
                     <p className="mt-1 text-gray-400">

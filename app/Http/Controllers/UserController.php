@@ -16,11 +16,13 @@ class UserController extends Controller
             'is_admin' => 'boolean',
         ]);
 
-        $rawPassword = Str::random(8);
+        // $rawPassword = Str::random(8);
+        $rawPassword = 'password';
         $data['password'] = bcrypt($rawPassword);
         $data['email_verified_at'] = now();
 
-        $user = User::create($data);
+        // $user = User::create($data);
+        User::create($data);
 
         return redirect()->back();
     }

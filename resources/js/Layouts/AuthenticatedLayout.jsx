@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, usePage } from "@inertiajs/react";
+import { UserPlusIcon } from "@heroicons/react/24/solid";
 
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
@@ -7,6 +8,7 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import Toast from "@/Components/App/Toast";
 import NewMessageNotification from "@/Components/App/NewMessageNotification";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 import { useEventBus } from "@/EventBus";
 
@@ -17,6 +19,7 @@ export default function Authenticated({ header, children }) {
     const user = page.props.auth.user;
     const conversations = page.props.conversations;
 
+    const [showNewUserModal, setShowNewUserModal] = useState(false);
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -115,7 +118,17 @@ export default function Authenticated({ header, children }) {
                             </div>
 
                             <div className="hidden sm:flex sm:items-center sm:ms-6">
-                                <div className="ms-3 relative">
+                                <div className="ms-3 flex relative">
+                                    {user.is_admin && (
+                                        <PrimaryButton
+                                            onClick={(ev) =>
+                                                setShowNewUserModal(true)
+                                            }
+                                        >
+                                            <UserPlusIcon className="h-5 w-5 mr-2" />
+                                            Add New User
+                                        </PrimaryButton>
+                                    )}
                                     <Dropdown>
                                         <Dropdown.Trigger>
                                             <span className="inline-flex rounded-md">

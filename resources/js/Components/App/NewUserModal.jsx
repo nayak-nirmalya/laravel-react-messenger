@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 
-import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import Modal from "@/Components/Modal";
 import SecondaryButton from "@/Components/SecondaryButton";
 import PrimaryButton from "@/Components/PrimaryButton";
-import UserPicker from "@/Components/App/UserPicker";
 
 import { useEventBus } from "@/EventBus";
+
+import Checkbox from "../Checkbox";
 
 export default function NewUserModal({ show = false, onClose = () => {} }) {
     const { emit } = useEventBus();
@@ -49,7 +48,6 @@ export default function NewUserModal({ show = false, onClose = () => {} }) {
                         id="name"
                         className="mt-1 block w-full"
                         value={data.name}
-                        disabled={!!group.id}
                         onChange={(e) => setData("name", e.target.value)}
                         required
                         isFocused
@@ -57,42 +55,37 @@ export default function NewUserModal({ show = false, onClose = () => {} }) {
                     <InputError className="mt-2" message={errors.name} />
                 </div>
                 <div className="mt-4">
-                    <InputLabel htmlFor="description" value="Description" />
-                    <TextAreaInput
-                        id="description"
-                        rows="3"
+                    <InputLabel htmlFor="email" value="E-Mail" />
+                    <TextInput
+                        id="email"
                         className="mt-1 block w-full"
-                        value={data.description || ""}
-                        onChange={(e) => setData("description", e.target.value)}
+                        value={data.email}
+                        onChange={(e) => setData("email", e.target.value)}
+                        required
                     />
-                    <InputError className="mt-2" message={errors.description} />
+                    <InputError className="mt-2" message={errors.email} />
                 </div>
                 <div className="mt-4">
-                    <InputLabel value="Select Users" />
-                    <UserPicker
-                        value={
-                            users.filter(
-                                (u) =>
-                                    group.owner_id !== u.id &&
-                                    data.user_ids.includes(u.id)
-                            ) || []
-                        }
-                        options={users}
-                        onSelect={(users) =>
-                            setData(
-                                "user_ids",
-                                users.map((u) => u.id)
-                            )
-                        }
-                    />
-                    <InputError className="mt-2" message={errors.user_ids} />
+                    <label className="flex items-center">
+                        <Checkbox
+                            name="is_admin"
+                            checked={data.is_admin}
+                            onChange={(ev) =>
+                                setData("is_admin", ev.target.checked)
+                            }
+                        />
+                        <span className="ms-2 text-sm text-gray-600 dark:text-gray-400">
+                            Admin User
+                        </span>
+                    </label>
+                    <InputError className="mt-2" message={errors.is_admin} />
                 </div>
                 <div className="mt-6 flex justify-end">
                     <SecondaryButton onClick={closeModal}>
                         Cancel
                     </SecondaryButton>
                     <PrimaryButton className="ms-3" disabled={processing}>
-                        {group.id ? "Update" : "Create"}
+                        Create
                     </PrimaryButton>
                 </div>
             </form>

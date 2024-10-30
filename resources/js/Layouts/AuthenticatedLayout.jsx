@@ -11,6 +11,7 @@ import NewMessageNotification from "@/Components/App/NewMessageNotification";
 import PrimaryButton from "@/Components/PrimaryButton";
 
 import { useEventBus } from "@/EventBus";
+import NewUserModal from "@/Components/App/NewUserModal";
 
 export default function Authenticated({ header, children }) {
     const page = usePage();
@@ -268,6 +269,10 @@ export default function Authenticated({ header, children }) {
             </div>
             <Toast />
             <NewMessageNotification />
+            <NewUserModal
+                show={showNewUserModal}
+                onClose={(ev) => setShowNewUserModal(false)}
+            />
         </>
     );
 }

@@ -105,13 +105,13 @@ export default function UserOptionsDropdown({ conversation }) {
                                                 : "text-gray-100"
                                         } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                     >
-                                        {conversation.is_adimin && (
+                                        {conversation.is_admin && (
                                             <>
                                                 <UserIcon className="w-4 h-4 mr-2" />
                                                 Make Regular User
                                             </>
                                         )}
-                                        {!conversation.is_adimin && (
+                                        {!conversation.is_admin && (
                                             <>
                                                 <ShieldCheckIcon className="w-4 h-4 mr-2" />
                                                 Make Admin

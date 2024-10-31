@@ -40,10 +40,10 @@ class UserController extends Controller
     {
         if ($user->blocked_at) {
             $user->blocked_at = null;
-            $message = 'User ' . $user->name . ' has been activated.';
+            $message = 'User "' . $user->name . '" has been activated.';
         } else {
             $user->blocked_at = now();
-            $message = 'User ' . $user->name . ' has been blocked.';
+            $message = 'User "' . $user->name . '" has been blocked.';
         }
         $user->save();
 

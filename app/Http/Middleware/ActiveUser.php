@@ -19,7 +19,7 @@ class ActiveUser
             auth()->logout();
             return redirect()
                 ->route('login')
-                ->with('error', 'Your account has been blocked.');
+                ->with('errorMessage', 'Your account has been blocked.');
         }
 
         return $next($request);

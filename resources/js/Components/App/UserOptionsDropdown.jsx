@@ -15,18 +15,20 @@ import {
 } from "@heroicons/react/24/solid";
 import axios from "axios";
 
-export default function UserOptionsDropdown({ conversation }) {
-    const changeUserRole = () => {
-        console.log("changeUserRole");
+import { useEventBus } from "@/EventBus";
 
-        if (!conversation.is_adimin) {
+export default function UserOptionsDropdown({ conversation }) {
+    const { emit } = useEventBus();
+
+    const changeUserRole = () => {
+        if (!conversation.is_user) {
             return;
         }
 
         axios
             .post(route("user.changeRole", conversation.id))
             .then((res) => {
-                console.log(res.data);
+                emit("toast.show", res.data.message);
             })
             .catch((err) => {
                 console.error(err);
@@ -34,8 +36,6 @@ export default function UserOptionsDropdown({ conversation }) {
     };
 
     const onBlockUser = () => {
-        console.log("onBlockUser");
-
         if (!conversation.is_user) {
             return;
         }
@@ -43,7 +43,7 @@ export default function UserOptionsDropdown({ conversation }) {
         axios
             .post(route("user.blockUnblock", conversation.id))
             .then((res) => {
-                console.log(res.data);
+                emit("toast.show", res.data.message);
             })
             .catch((err) => {
                 console.error(err);

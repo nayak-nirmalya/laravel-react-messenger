@@ -27,7 +27,7 @@ class UserCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'User Created',
+            subject: 'Your Account Has Been Created',
         );
     }
 
@@ -37,7 +37,7 @@ class UserCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            markdown: 'mail.user.created',
         );
     }
 

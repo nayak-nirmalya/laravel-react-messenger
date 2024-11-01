@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,7 +17,7 @@ class UserBlockedUnblocked extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public User $user)
     {
         //
     }
@@ -26,8 +27,9 @@ class UserBlockedUnblocked extends Mailable
      */
     public function envelope(): Envelope
     {
+        $subject = 'Your Account Has Been ' . ($this->user->blocked_at ? 'Blocked' : 'Activated');
         return new Envelope(
-            subject: 'User Blocked Unblocked',
+            subject: $subject,
         );
     }
 
@@ -37,7 +39,7 @@ class UserBlockedUnblocked extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            markdown: 'mail.user.blocked-unblocked',
         );
     }
 

@@ -20,8 +20,7 @@ class UserController extends Controller
             'is_admin' => 'boolean',
         ]);
 
-        // $rawPassword = Str::random(8);
-        $rawPassword = 'password';
+        $rawPassword = Str::random(8);
         $data['password'] = bcrypt($rawPassword);
         $data['email_verified_at'] = now();
 

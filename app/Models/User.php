@@ -68,16 +68,13 @@ class User extends Authenticatable
                     ->where('conversations.user_id2', '=', $userId)
                     ->orWhere(function ($query) use ($userId) {
                         $query->on('conversations.user_id2', "=", 'users.id')
-                            ->where('conversations.user_id1', '=', $userId)
-                        ;
-                    })
-                ;
+                            ->where('conversations.user_id1', '=', $userId);
+                    });
             })
             ->leftJoin('messages', 'messages.id', '=', 'conversations.last_message_id')
             ->orderByRaw('IFNULL(users.blocked_at, 1)')
             ->orderBy('messages.created_at', 'desc')
-            ->orderBy('users.name')
-        ;
+            ->orderBy('users.name');
 
         return $query->get();
     }

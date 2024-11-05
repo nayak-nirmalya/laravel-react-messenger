@@ -19,7 +19,6 @@ class Group extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'group_users');
-        ;
     }
 
     public function messages()
@@ -44,8 +43,7 @@ class Group extends Model
             ->leftJoin('messages', 'messages.id', '=', 'groups.last_message_id')
             ->where('group_users.user_id', $user->id)
             ->orderBy('messages.created_at', 'desc')
-            ->orderBy('groups.name')
-        ;
+            ->orderBy('groups.name');
 
         return $query->get();
     }

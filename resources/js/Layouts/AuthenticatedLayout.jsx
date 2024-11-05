@@ -9,9 +9,9 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import Toast from "@/Components/App/Toast";
 import NewMessageNotification from "@/Components/App/NewMessageNotification";
 import PrimaryButton from "@/Components/PrimaryButton";
+import NewUserModal from "@/Components/App/NewUserModal";
 
 import { useEventBus } from "@/EventBus";
-import NewUserModal from "@/Components/App/NewUserModal";
 
 export default function Authenticated({ header, children }) {
     const page = usePage();

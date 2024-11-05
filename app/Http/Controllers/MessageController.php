@@ -22,8 +22,7 @@ class MessageController extends Controller
             ->orWhere("sender_id", $user->id)
             ->where("receiver_id", auth()->id())
             ->latest()
-            ->paginate(10)
-        ;
+            ->paginate(10);
 
         return inertia('Home', [
             'selectedConversation' => $user->toConversationArray(),
@@ -35,8 +34,7 @@ class MessageController extends Controller
     {
         $messages = Message::where('group_id', $group->id)
             ->latest()
-            ->paginate(10)
-        ;
+            ->paginate(10);
 
         return inertia('Home', [
             'selectedConversation' => $group->toConversationArray(),
@@ -50,8 +48,7 @@ class MessageController extends Controller
             $messages = Message::where('created_at', '<', $message->created_at)
                 ->where('group_id', $message->group_id)
                 ->latest()
-                ->paginate(10)
-            ;
+                ->paginate(10);
         } else {
             $messages = Message::where('created_at', '<', $message->created_at)
                 ->where(function ($query) use ($message) {
@@ -62,8 +59,7 @@ class MessageController extends Controller
                     ;
                 })
                 ->latest()
-                ->paginate(10)
-            ;
+                ->paginate(10);
         }
 
         return MessageResource::collection($messages);
